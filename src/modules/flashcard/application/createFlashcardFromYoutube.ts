@@ -3,7 +3,6 @@ import { FlashcardRepository, VideoRepository } from '../domain/repositories/fla
 import { VocabularyService } from '../domain/services/vocabularyService';
 import { AIVocabularyExtractor } from '../domain/services/aiVocabularyExtractor';
 import { Flashcard } from '../domain/entities/flashcard';
-import { v4 as uuidv4 } from 'uuid';
 
 export class CreateFlashcardFromYoutubeUseCase {
   constructor(
@@ -29,11 +28,11 @@ export class CreateFlashcardFromYoutubeUseCase {
     );
     // 4. Tạo flashcard
     const flashcards: Flashcard[] = enrichedVocabularies.map(vocab => ({
-      id: uuidv4(),
+      // Không tạo id, để Supabase tự gen
       vocabulary: vocab,
       createdAt: new Date().toISOString(),
       topic: video.topic,
-      videoId: video.id,
+      videoId: video.id!,
     }));
     // 5. Lưu flashcard
     await this.flashcardRepo.saveFlashcards(flashcards);

@@ -11,7 +11,7 @@ export interface Vocabulary {
 
 // Định nghĩa entity cho flashcard
 export interface Flashcard {
-  id: string;
+  id?: string; // Optional, Supabase sẽ tự gen
   vocabulary: Vocabulary;
   createdAt: string;
   topic: string;
@@ -20,7 +20,7 @@ export interface Flashcard {
 
 // Định nghĩa entity cho video
 export interface Video {
-  id: string;
+  id?: string; // Optional, Supabase sẽ tự gen
   youtubeId?: string; // YouTube video ID (không phải UUID)
   title: string;
   transcript: string;

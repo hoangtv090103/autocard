@@ -4,7 +4,6 @@ import { Flashcard, Video, Vocabulary } from '@/modules/flashcard/domain/entitie
 import { supabase } from '@/lib/supabaseClient';
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 import { YoutubeLoader } from '@langchain/community/document_loaders/web/youtube';
-import { v4 as uuidv4 } from 'uuid';
 
 // Placeholder: Sử dụng Supabase client thực tế để lưu flashcard
 export class SupabaseFlashcardRepository implements FlashcardRepository {
@@ -13,7 +12,6 @@ export class SupabaseFlashcardRepository implements FlashcardRepository {
     if (flashcards.length === 0) return;
     // Insert as JSONB vocabulary field, not as flat columns
     const rows = flashcards.map(card => ({
-      id: card.id,
       vocabulary: card.vocabulary,
       created_at: card.createdAt,
       topic: card.topic,
@@ -79,12 +77,12 @@ export class YoutubeVideoRepository implements VideoRepository {
     // Chủ đề tạm lấy từ title
     const topic = title;
     return {
-      id: uuidv4(), // Tạo UUID cho video thay vì dùng YouTube videoId
+      // Không cần tạo id, Supabase sẽ tự gen UUID
       youtubeId: videoId, // Lưu YouTube ID riêng
       title,
       transcript,
       topic,
-    };
+    } as Video;
   }
 }
 
