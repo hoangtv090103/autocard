@@ -1,11 +1,12 @@
 // Định nghĩa entity cho từ vựng (Vocabulary)
 export interface Vocabulary {
   word: string;
+  meaning: string;
   phonetic?: string;
   audio?: string;
-  meaning: string;
   type?: string;
   context?: string;
+  example?: string; // ví dụ sử dụng từ trong câu
 }
 
 // Định nghĩa entity cho flashcard
