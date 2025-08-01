@@ -10,13 +10,10 @@ export class SupabaseFlashcardRepository implements FlashcardRepository {
   async saveFlashcards(flashcards: Flashcard[]): Promise<void> {
     // Lưu từng flashcard vào bảng 'flashcards'
     if (flashcards.length === 0) return;
+    // Insert as JSONB vocabulary field, not as flat columns
     const rows = flashcards.map(card => ({
       id: card.id,
-      word: card.vocabulary.word,
-      phonetic: card.vocabulary.phonetic,
-      meaning: card.vocabulary.meaning,
-      type: card.vocabulary.type,
-      context: card.vocabulary.context,
+      vocabulary: card.vocabulary,
       created_at: card.createdAt,
       topic: card.topic,
       video_id: card.videoId,
@@ -36,24 +33,14 @@ export class SupabaseFlashcardRepository implements FlashcardRepository {
     return data
       .filter((row: Record<string, unknown>) =>
         typeof row.id === 'string' &&
-        typeof row.word === 'string' &&
-        typeof row.phonetic === 'string' &&
-        typeof row.meaning === 'string' &&
-        typeof row.type === 'string' &&
-        typeof row.context === 'string' &&
+        typeof row.vocabulary === 'object' &&
         typeof row.created_at === 'string' &&
         typeof row.topic === 'string' &&
         typeof row.video_id === 'string'
       )
       .map((row: Record<string, unknown>): Flashcard => ({
         id: row.id as string,
-        vocabulary: {
-          word: row.word as string,
-          phonetic: row.phonetic as string,
-          meaning: row.meaning as string,
-          type: row.type as string,
-          context: row.context as string,
-        },
+        vocabulary: row.vocabulary as Vocabulary,
         createdAt: row.created_at as string,
         topic: row.topic as string,
         videoId: row.video_id as string,
