@@ -21,6 +21,7 @@ export interface Flashcard {
 // Định nghĩa entity cho video
 export interface Video {
   id: string;
+  youtubeId?: string; // YouTube video ID (không phải UUID)
   title: string;
   transcript: string;
   topic: string;
