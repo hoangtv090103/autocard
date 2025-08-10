@@ -9,8 +9,7 @@ export class GeminiAIVocabularyExtractor implements AIVocabularyExtractor {
         const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
             throw new Error('GEMINI_API_KEY environment variable is not set.');
-        }
-        this.ai = new GoogleGenAI({ apiKey });
+        }        this.ai = new GoogleGenAI({ apiKey });
     }
 
     async extractVocabularies(transcript: string, topic: string): Promise<Vocabulary[]> {

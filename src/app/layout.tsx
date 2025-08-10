@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ThemeToggle from '@/components/ThemeToggle';
+import { ClerkProvider, SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,13 +21,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <header className="p-4 flex justify-end">
-          <ThemeToggle />
-        </header>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <header className="p-4 flex justify-between items-center">
+            <ThemeToggle />
+            <nav className="flex space-x-4">
+              <SignedOut>
+                <SignInButton>Sign in</SignInButton>
+                <SignUpButton>Sign up</SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </nav>
+          </header>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
