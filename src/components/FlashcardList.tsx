@@ -9,8 +9,10 @@ export default function FlashcardList({ flashcards }: { flashcards: Flashcard[] 
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {flashcards.map((card, idx) => {
         const audioUrl = card.vocabulary.audio;
+        // Use card.id if available, otherwise fallback to word+idx
+        const key = card.id || `${card.vocabulary.word}-${idx}`;
         return (
-          <div key={card.id} className="border rounded p-4 shadow">
+          <div key={key} className="border rounded p-4 shadow">
             <div className="font-bold text-lg">{card.vocabulary.word}</div>
             <div className="flex items-center gap-2 italic text-gray-500">
               {audioUrl && (

@@ -112,7 +112,6 @@ export class SimpleVocabularyService implements VocabularyService {
       const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(vocab.word)}`);
       if (!res.ok) return { ...vocab };
       const data = await res.json();
-      const phonetic = data?.[0]?.phonetic || data?.[0]?.phonetics?.[0]?.text;
       // Lấy audio đầu tiên nếu có
       let audio = undefined;
       type Phonetic = { text?: string; audio?: string };
@@ -120,7 +119,7 @@ export class SimpleVocabularyService implements VocabularyService {
         const found = (data[0].phonetics as Phonetic[]).find((p: Phonetic) => p.audio);
         if (found) audio = found.audio;
       }
-      return { ...vocab, phonetic, audio };
+      return { ...vocab, audio };
     } catch (e) {
       console.error('Error fetching phonetic/audio:', e);
       return { ...vocab };
