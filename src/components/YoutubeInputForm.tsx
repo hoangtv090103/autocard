@@ -25,17 +25,21 @@ export default function YoutubeInputForm({ onFlashcards }: { onFlashcards: (flas
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
+  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 mb-6">
         <input
           type="text"
           placeholder="Paste YouTube link..."
           value={youtubeUrl}
           onChange={e => setYoutubeUrl(e.target.value)}
-          className="border px-2 py-1 rounded w-full"
+          className="border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-4 py-2 rounded flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded" disabled={loading}>
-          {loading ? 'Processing...' : 'Tạo flashcard'}
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={loading}
+        >
+          {loading ? 'Đang xử lý...' : 'Tạo flashcard'}
         </button>
       </form>
       {loading && (
